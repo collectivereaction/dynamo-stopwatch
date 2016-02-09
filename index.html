@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/button.css">
+    <link rel="stylesheet" href="stylesheets/loader.css">
     <meta name="viewport" content="width=device-width">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -25,21 +26,33 @@
       <section>
         <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to the stopwatch.</h3>
-        <p><a class="btn btn-primary btn-start-js">Start</a></p>
-        <p><a class="btn btn-success btn-good-js">Good</a></p>
-        <p><a class="btn btn-danger btn-bad-js">Bad</a></p>
+        <h2 class="time-js"></h2>
 
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Good Moments:</h3>
-        <ul>
-          <li><strong>145402343235235</strong></li>
-        </ul>
+        <p class="button-wrapper">
+            <a class="btn btn-success btn-good-js">Good</a>
+            <a class="btn btn-danger btn-bad-js">Bad</a>
+        </p>
 
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bad Moments:</h3>
-        <ul>
-          <li><strong>145402343235465</strong></li>
-        </ul>
+        <br/>
 
-        <p><a class="btn btn-primary btn-send-js">Submit to Dynamo</a></p>
+        <div class="time-wrapper">
+            <div class="time-list">
+                <h3>Good Moments:</h3>
+                <ul class="list-good-js">
+                </ul>
+            </div>
+
+            <div class="time-list">
+                <h3>Bad Moments:</h3>
+                <ul class="list-bad-js">
+                </ul>
+            </div>
+        </div>
+
+        <p>
+            <input class="block session-id-js" type="text" placeholder="Session ID"></input>
+            <a class="block btn btn-primary btn-send-js">Submit to Dynamo</a>
+        </p>
 
       </section>
       <footer>
@@ -49,6 +62,10 @@
     </div>
     <script src="javascripts/scale.fix.js"></script>
     <script src="javascripts/stopwatch.js"></script>
+    <script src="javascripts/aws-sdk-2.2.33.min.js"></script>
     
+    <div class="loading-mask">
+        <div class="loader"></div>
+    </div>
   </body>
 </html>

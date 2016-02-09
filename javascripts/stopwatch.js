@@ -1,30 +1,61 @@
-var stopwatch = function() {
-    var goodTimes = [],
-        badTimes = [];
+var dynamo = new AWS.DynamoDB({
+    region: 'us-east-1',
+    credentials: ''
+});
 
-    return {
-        onStart: function() {},
-        addBadTime: function(time, cb) {
-        },
-        addGoodTime: function(time, cb) {
-        },
-        sendToDynamo: function(cb) {
-        }
-    };
+function updateStopwatch($time) {
+    $time.html(Date.now());
+}
+
+function sendToDynamo(opts, callback) {
+
+    setTimeout(function() {
+        return callback();
+    }, 1000);
 }
 
 $(document).ready(function() {
-    console.log('ready');
+    var goodTimes = [],
+        badTimes = [];
 
-    $('.btn-good-js').click(function(smth) {
-        console.log('Good clicked at', Date.now());
+    var $time = $('.time-js'),
+        $good = $('.btn-good-js'),
+        $goodList = $('.list-good-js'),
+        $bad = $('.btn-bad-js'),
+        $badList = $('.list-bad-js'),
+        $sessionID = $('.session-id-js'),
+        $send = $('.btn-send-js'),
+        $loader = $('.loading-mask');
+
+
+    var interval_id = setInterval(updateStopwatch, 10, $time);
+    $good.click(function(smth) {
+        $goodList.append('<li><strong>' + Date.now() + '</strong></li>');
+        goodTimes.push(Date.now());
     });
 
-    $('.btn-bad-js').click(function(smth) {
-        console.log('Good clicked at', Date.now());
+    $bad.click(function(smth) {
+        $badList.append('<li><strong>' + Date.now() + '</strong></li>');
+        badTimes.push(Date.now());
     });
 
-    $('.btn-send-js').click(function(smth) {
-        console.log('Submit clicked at', Date.now());
+    $send.click(function(smth) {
+        $loader.addClass('show');
+
+        return sendToDynamo({
+            id: $sessionID.val(),
+            goodTimes: goodTimes,
+            badTimes: badTimes
+        }, function(err) {
+            $loader.removeClass('show');
+            if (err) alert(err);
+
+            $badList.html('');
+            $goodList.html('');
+            goodTimes = [];
+            badTimes = [];
+
+            return;
+        });
     });
 });

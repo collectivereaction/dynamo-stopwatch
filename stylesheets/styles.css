@@ -148,6 +148,23 @@ footer {
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
+.btn-success, .btn-danger {
+  width: 40%;
+  display: inline-block;
+}
+
+.time-list {
+  width: 48%;
+  display: inline-block;
+  float: left;
+  height: 300px;
+}
+
+.block {
+  display: block;
+  margin-bottom: 10px;
+}
+
 @media print, screen and (max-width: 960px) {
 
   div.wrapper {
