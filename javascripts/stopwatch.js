@@ -1,6 +1,7 @@
 var dynamo = new AWS.DynamoDB({
     region: 'us-east-1',
-    credentials: ''
+    accessKeyId: 'AKIAJDAG46VPWRORTVUA',
+    secretAccessKey: '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'
 });
 
 function updateStopwatch($time) {
@@ -8,10 +9,52 @@ function updateStopwatch($time) {
 }
 
 function sendToDynamo(opts, callback) {
+    var goodRequests = opts.goodTimes.map(function(goodtime) {
+        return {
+            PutRequest: {
+                Item: {
+                    id: {
+                        S: opts.id
+                    },
+                    time: {
+                        N: '' + goodtime
+                    },
+                    'event': {
+                        S: 'goodness'
+                    }
+                }
+            }
+        };
+    });
 
-    setTimeout(function() {
+
+    var badRequests = opts.badTimes.map(function(badtime) {
+        return {
+            PutRequest: {
+                Item: {
+                    id: {
+                        S: opts.id
+                    },
+                    time: {
+                        N: '' + badtime
+                    },
+                    'event': {
+                        S: 'badness'
+                    }
+                }
+            }
+        };
+    });
+
+    dynamo.batchWriteItem({
+        RequestItems: {
+            'game-test': goodRequests.concat(badRequests)
+        }
+    }, function(err, res) {
+        if (err) console.error('ERROR!!', err);
+        console.log('wrote', res);
         return callback();
-    }, 1000);
+    });
 }
 
 $(document).ready(function() {
