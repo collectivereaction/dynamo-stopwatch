@@ -68,6 +68,7 @@ $(document).ready(function() {
         $badList = $('.list-bad-js'),
         $sessionID = $('.session-id-js'),
         $send = $('.btn-send-js'),
+        $clear = $('.btn-clear-js'),
         $loader = $('.loading-mask');
 
 
@@ -93,6 +94,7 @@ $(document).ready(function() {
             $loader.removeClass('show');
             if (err) alert(err);
 
+            $sessionID.val('');
             $badList.html('');
             $goodList.html('');
             goodTimes = [];
@@ -100,5 +102,13 @@ $(document).ready(function() {
 
             return;
         });
+    });
+
+    $clear.click(function() {
+        $sessionID.val('');
+        $badList.html('');
+        $goodList.html('');
+        goodTimes = [];
+        badTimes = [];
     });
 });
