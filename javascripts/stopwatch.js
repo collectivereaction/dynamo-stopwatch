@@ -52,8 +52,25 @@ function sendToDynamo(opts, callback) {
         }
     }, function(err, res) {
         if (err) console.error('ERROR!!', err);
-        console.log('wrote', res);
-        return callback();
+        dynamo.updateItem({
+            TableName: 'model-test',
+            Key:{
+                id:{
+                    S: opts.id
+                }
+            },
+            AttributeUpdates:{
+                'bad-count': {
+                    N: '' + opts.badTimes.length
+                },
+                'good-count': {
+                    N: '' + opts.goodTimes.length
+                }
+            }
+        }, function(err, res) {
+            if (err) console.error('ERROR!!', err);
+            return callback();
+        });
     });
 }
 
