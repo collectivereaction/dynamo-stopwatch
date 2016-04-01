@@ -61,10 +61,16 @@ function sendToDynamo(opts, callback) {
             },
             AttributeUpdates:{
                 'bad-count': {
-                    N: '' + opts.badTimes.length
+                    Action: 'PUT',
+                    Value: {
+                        N: '' + opts.badTimes.length
+                    }
                 },
                 'good-count': {
-                    N: '' + opts.goodTimes.length
+                    Action: 'PUT',
+                    Value: {
+                        N: '' + opts.goodTimes.length
+                    }
                 }
             }
         }, function(err, res) {
